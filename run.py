@@ -15,8 +15,8 @@ import pandas as pd
 
 
 parser = ArgumentParser()
-parser.add_argument('--test_set', type=str, default='split_train', choices=['split_train', 'galactic_plane', 'bulge'],
-                    help='Which test set to use.')
+parser.add_argument('--test_set', type=str, default='split_train',
+                    choices=['split_train', 'galactic_plane', 'bulge'], help='Which test set to use.')
 parser.add_argument('--fits_dir', type=str, default='./fits_files',
                     help='Path to directory that contains fits files.')
 parser.add_argument('--aors_dir', type=str, default="./aor_files/",
@@ -118,10 +118,12 @@ predictions = torch.hstack(predictions)
 probabilities = torch.vstack(probabilities)
 if labels_test[0] > -1:  # we have test labels
     plot_confusion_matrix(predictions.numpy(), labels_test.numpy(), coarse_label_map)
-    list_errors(predictions.numpy(), labels_test.numpy(), aors_test, aor_indices_test, probabilities.numpy(), coarse_label_map)
+    list_errors(predictions.numpy(), labels_test.numpy(), aors_test, aor_indices_test, probabilities.numpy(),
+                coarse_label_map)
     print("Accuracy = {0:0.1f}%".format(accuracy_score(labels_test.numpy(), predictions.numpy()) * 100.0))
 else:  # we don't have test labels
     for prediction, aor, index in zip(text_predictions, aors_test, aor_indices_test):
-        print("AOR: {}, Pointing: {}, Predicted Class: {}, Probability: {}".format(aor, index, prediction, max(probs.numpy())))
+        print("AOR: {}, Pointing: {}, Predicted Class: {}, Probability: {}".format(aor, index, prediction,
+                                                                                   max(probs.numpy())))
     df = pd.DataFrame({'aor': aors_test, 'pointing': aor_indices_test, 'predicted class': text_predictions})
     df.to_csv( "predictions.csv", header=False, index=False)

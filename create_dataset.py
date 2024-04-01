@@ -69,7 +69,7 @@ def create_dataset(args):
 
                 # ideally the spectrum contains 387 elements, if it doesn't attempt to pad the data
                 features_length = len(wavelength_data)
-                if features_length != expected_flux_data_length:  # repair the data
+                if features_length != expected_flux_data_length:  # TODO repair the data
                     if args.verbose == 'on':
                         print(file_set['name'], aor, index, label,  len(wavelength_data), min(wavelength_data),
                               max(wavelength_data), flux_data[0], flux_data[-1])
